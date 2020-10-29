@@ -126,4 +126,22 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase6
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bestAvgwithMaxRuns() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int maxRuns = runsList.stream().filter(s -> (s.runs > 0)).map(s -> s.runs).max(Integer::compare).get();
+		double bestAvg = runsList.stream().filter(s -> s.runs == maxRuns).map(s -> Double.parseDouble(s.average))
+				.max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.average.equals(Double.toString(bestAvg)))
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
 }
