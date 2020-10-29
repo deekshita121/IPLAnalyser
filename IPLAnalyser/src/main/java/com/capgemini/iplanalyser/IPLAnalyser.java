@@ -13,6 +13,7 @@ import com.capgemini.csvbuilder.BuilderException;
 import com.capgemini.csvbuilder.CSVBuilderFactory;
 import com.capgemini.csvbuilder.ICSVBuilder;
 
+
 public class IPLAnalyser {
 	List<PlayerRuns> runsList = new ArrayList<>();
 
@@ -32,14 +33,27 @@ public class IPLAnalyser {
 
 	}
 
-	public String getTopBattingAvg() throws IPLAnalyserException {
+	public String topBattingAvg() throws IPLAnalyserException {
 		if (runsList == null || runsList.size() == 0) {
 			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
-		double max = runsList.stream().filter(s -> !s.average.equals("-")).map(s -> Double.parseDouble(s.average))
+		double max = runsList.stream().filter(s -> (s.average!="-")).map(s -> Double.parseDouble(s.average))
 				.max(Double::compare).get();
 		List<PlayerRuns> player = runsList.stream().filter(s -> s.average.equals(Double.toString(max)))
 				.collect(Collectors.toList());
+		System.out.println(player.get(0).player);
 		return player.get(0).player;
 	}
+
+	public String strikingRate() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double max = runsList.stream().filter(s -> (s.strikeRate>0)).map(s -> s.strikeRate).max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == max).collect(Collectors.toList());
+		System.out.println(player.get(0).player);
+		return player.get(0).player;
+	}
+	
+	
 }

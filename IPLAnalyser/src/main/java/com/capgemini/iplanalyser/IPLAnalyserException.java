@@ -1,5 +1,6 @@
 package com.capgemini.iplanalyser;
 
+@SuppressWarnings("serial")
 public class IPLAnalyserException extends Exception {
 
 	enum Exception {

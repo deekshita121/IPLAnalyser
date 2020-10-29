@@ -15,8 +15,19 @@ public class IPLAnalyserTest {
 	public void givenCsvDataShouldReturnTopBattingAvg() {
 		try {
 			iplAnalyser.loadPlayerRuns(PLAYER_RUNS_DATA);
-			String playerName = iplAnalyser.getTopBattingAvg();
+			String playerName = iplAnalyser.topBattingAvg();
 			Assert.assertEquals("MS Dhoni", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void givenCsvDataShouldReturnTopStrikingRates() {
+		try {
+			iplAnalyser.loadPlayerRuns(PLAYER_RUNS_DATA);
+			String playerName = iplAnalyser.strikingRate();
+			Assert.assertEquals("Ishant Sharma", playerName);
 		} catch (IPLAnalyserException e) {
 			e.printStackTrace();
 		}
