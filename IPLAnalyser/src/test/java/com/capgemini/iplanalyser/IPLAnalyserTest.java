@@ -87,4 +87,15 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenCsvDataShouldReturnBowlerwithBestStrikingAvg() {
+		try {
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.bowlerStrikeRate();
+			Assert.assertEquals("Alzzari Joseph", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }

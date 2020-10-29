@@ -25,7 +25,7 @@ public class Bowler {
 	@CsvBindByName(column = "Econ", required = true)
 	public double economy;
 	@CsvBindByName(column = "SR", required = true)
-	public String strikeRate;
+	public double strikeRate;
 	@CsvBindByName(column = "4w", required = true)
 	public int fourWickets;
 	@CsvBindByName(column = "5w", required = true)
