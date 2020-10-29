@@ -201,4 +201,21 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase9
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bowlerEconomyRate() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double maxEconomy = bowlersList.stream().filter(s -> (s.economy > 0)).map(s -> s.economy).max(Double::compare)
+				.get();
+		List<Bowler> player = bowlersList.stream().filter(s -> s.economy == maxEconomy).collect(Collectors.toList());
+		System.out.println(player.get(0).player);
+		return player.get(0).player;
+	}
+
 }
