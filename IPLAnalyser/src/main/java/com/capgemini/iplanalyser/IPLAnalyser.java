@@ -343,4 +343,20 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase16
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String playerWithZero100_50AndBestAvg() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double maxAvg = runsList.stream().filter(s -> s.hundreds == 0 && s.fifties == 0)
+				.map(s -> Double.parseDouble(s.average)).max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> Double.parseDouble(s.average) == maxAvg)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
 }
