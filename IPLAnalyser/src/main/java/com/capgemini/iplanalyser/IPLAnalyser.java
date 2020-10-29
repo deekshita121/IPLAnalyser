@@ -218,4 +218,22 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase10
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bowlerBestStrikeRatewith4w5w() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int max4wAnd5w = bowlersList.stream().map(s -> s.fourWickets + s.fiveWickets).max(Integer::compare).get();
+		double highStrikeRate = bowlersList.stream().filter(s -> s.fourWickets + s.fiveWickets == max4wAnd5w)
+				.map(s -> s.strikeRate).max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == highStrikeRate)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
 }

@@ -109,4 +109,15 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenCsvDataShouldReturnBowlerwithBestStrikeRateand4w5w() {
+		try {
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.bowlerBestStrikeRatewith4w5w();
+			Assert.assertEquals("Lasith Malinga", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }
