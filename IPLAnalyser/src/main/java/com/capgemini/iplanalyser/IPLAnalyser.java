@@ -231,9 +231,30 @@ public class IPLAnalyser {
 		int max4wAnd5w = bowlersList.stream().map(s -> s.fourWickets + s.fiveWickets).max(Integer::compare).get();
 		double highStrikeRate = bowlersList.stream().filter(s -> s.fourWickets + s.fiveWickets == max4wAnd5w)
 				.map(s -> s.strikeRate).max(Double::compare).get();
-		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == highStrikeRate)
+		List<Bowler> player = bowlersList.stream().filter(s -> s.strikeRate == highStrikeRate)
 				.collect(Collectors.toList());
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase11
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bowlerGreatAvgwithBestStrikeRate() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+
+		double highStrikeRate = bowlersList.stream().filter(s -> s.strikeRate > 0).map(s -> s.strikeRate)
+				.max(Double::compare).get();
+		double maxAvg = bowlersList.stream().filter(s -> s.strikeRate == highStrikeRate)
+				.map(s -> Double.parseDouble(s.average)).max(Double::compare).get();
+		List<Bowler> player = bowlersList.stream().filter(s -> Double.parseDouble(s.average) == maxAvg)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
+	
 }

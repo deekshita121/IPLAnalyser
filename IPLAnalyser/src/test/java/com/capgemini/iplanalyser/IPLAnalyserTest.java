@@ -120,4 +120,15 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenCsvDataShouldReturnBowlerwithGreatAvgWithBestStrikeRate() {
+		try {
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.bowlerGreatAvgwithBestStrikeRate();
+			Assert.assertEquals("Anukul Roy", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }
