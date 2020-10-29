@@ -131,4 +131,15 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenCsvDataShouldReturnBowlerwithmaxWicketsAndBestBowlingAvg() {
+		try {
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.bowlerWithMaxWicketsAndBestBowlingAvg();
+			Assert.assertEquals("Imran Tahir", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }

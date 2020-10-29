@@ -256,5 +256,23 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase12
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bowlerWithMaxWicketsAndBestBowlingAvg() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int maxWickets = bowlersList.stream().filter(s -> (s.wickets > 0)).map(s -> s.wickets).max(Integer::compare)
+				.get();
+		double bestAvg = bowlersList.stream().filter(s -> s.wickets == maxWickets)
+				.map(s -> Double.parseDouble(s.average)).max(Double::compare).get();
+		List<Bowler> player = bowlersList.stream().filter(s -> s.average.equals(Double.toString(bestAvg)))
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
 	
 }
