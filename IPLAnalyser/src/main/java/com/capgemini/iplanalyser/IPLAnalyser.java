@@ -15,6 +15,7 @@ import com.capgemini.csvbuilder.ICSVBuilder;
 
 public class IPLAnalyser {
 	List<PlayerRuns> runsList = new ArrayList<>();
+	List<Bowler> bowlersList = new ArrayList<>();
 
 	/**
 	 * Start
@@ -28,6 +29,27 @@ public class IPLAnalyser {
 			new CSVBuilderFactory();
 			ICSVBuilder csvBuilderCustom = CSVBuilderFactory.createCSVBuilder();
 			runsList = csvBuilderCustom.getCSVFileList(reader, PlayerRuns.class);
+		} catch (IOException | RuntimeException e) {
+			throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.Exception.INCORRECT_FILE);
+			// e.printStackTrace();
+		} catch (BuilderException e) {
+			throw new IPLAnalyserException(e.getMessage(), e.type.name());
+			// e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param csvFilePath
+	 * @throws IPLAnalyserException
+	 */
+	public void loadBowler(String csvFilePath) throws IPLAnalyserException {
+
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
+			new CSVBuilderFactory();
+			ICSVBuilder csvBuilderCustom = CSVBuilderFactory.createCSVBuilder();
+			runsList = csvBuilderCustom.getCSVFileList(reader, Bowler.class);
 		} catch (IOException | RuntimeException e) {
 			throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.Exception.INCORRECT_FILE);
 			// e.printStackTrace();
@@ -141,6 +163,24 @@ public class IPLAnalyser {
 				.max(Double::compare).get();
 		List<PlayerRuns> player = runsList.stream().filter(s -> s.average.equals(Double.toString(bestAvg)))
 				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
+	/**
+	 * Usecase7
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String topBowlingAvg() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double max = bowlersList.stream().filter(s -> (s.average != "-")).map(s -> Double.parseDouble(s.average))
+				.max(Double::compare).get();
+		List<Bowler> player = bowlersList.stream().filter(s -> s.average.equals(Double.toString(max)))
+				.collect(Collectors.toList());
+		System.out.println(player.get(0).player);
 		return player.get(0).player;
 	}
 

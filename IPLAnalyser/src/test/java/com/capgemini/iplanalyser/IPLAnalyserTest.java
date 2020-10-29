@@ -8,7 +8,7 @@ import org.junit.Test;
 public class IPLAnalyserTest {
 
 	private static final String PLAYER_RUNS_DATA = "C:\\Users\\Lenovo\\git\\IPLAnalyser\\IPLAnalyser\\src\\main\\Resources\\WP DP Data_01 IPL2019FactsheetMostRuns.csv";
-
+    private static final String BOWLERS_DATA = "C:\\Users\\Lenovo\\git\\IPLAnalyser\\IPLAnalyser\\src\\main\\Resources\\WP DP Data_02 IPL2019FactsheetMostWkts.csv";
 	IPLAnalyser iplAnalyser = new IPLAnalyser();
 
 	@Test
@@ -72,6 +72,17 @@ public class IPLAnalyserTest {
 			iplAnalyser.loadPlayerRuns(PLAYER_RUNS_DATA);
 			String playerName = iplAnalyser.bestAvgwithMaxRuns();
 			Assert.assertEquals("David Warner", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void givenCsvDataShouldReturnCricketerwithTopBowlingAvg() {
+		try {
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.topBowlingAvg();
+			Assert.assertEquals("Anukul Roy", playerName);
 		} catch (IPLAnalyserException e) {
 			e.printStackTrace();
 		}
