@@ -84,7 +84,25 @@ public class IPLAnalyser {
 			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
 		int maxSixesAndFours = runsList.stream().map(s -> s.fours + s.sixes).max(Integer::compare).get();
-		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == maxSixesAndFours)
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.fours + s.sixes == maxSixesAndFours)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
+	/**
+	 * Usecase4
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bestStrikeRatewith6sAnd4s() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int maxSixesAndFours = runsList.stream().map(s -> s.fours + s.sixes).max(Integer::compare).get();
+		double highStrikeRate = runsList.stream().filter(s -> s.fours + s.sixes == maxSixesAndFours)
+				.map(s -> s.strikeRate).max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == highStrikeRate)
 				.collect(Collectors.toList());
 		return player.get(0).player;
 	}
