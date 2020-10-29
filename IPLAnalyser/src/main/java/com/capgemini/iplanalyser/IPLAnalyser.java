@@ -274,5 +274,32 @@ public class IPLAnalyser {
 				.collect(Collectors.toList());
 		return player.get(0).player;
 	}
+
+	/**
+	 * Usecase13
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String cricketerWithBestBattingAndBowlingAvg() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double maxBattingAvg = runsList.stream().filter(s -> (s.average != "-")).map(s -> Double.parseDouble(s.average))
+				.max(Double::compare).get();
+		double maxBowlingAvg = bowlersList.stream().filter(s -> (s.average != "-"))
+				.map(s -> Double.parseDouble(s.average)).max(Double::compare).get();
+		List<Bowler> bowler = bowlersList.stream().filter(s -> s.average.equals(Double.toString(maxBowlingAvg)))
+				.collect(Collectors.toList());
+		List<PlayerRuns> batsman = runsList.stream().filter(s -> s.average.equals(Double.toString(maxBowlingAvg)))
+				.collect(Collectors.toList());
+		return bowler.get(0).player;
+		// return batsman.get(0).player;
+	}
 	
+	
+
 }
