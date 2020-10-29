@@ -107,4 +107,23 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase5
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String bestStrikeRatewithGreatAvg() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double maxAvg = runsList.stream().filter(s -> (s.average != "-")).map(s -> Double.parseDouble(s.average))
+				.max(Double::compare).get();
+		double highStrikeRate = runsList.stream().filter(s -> s.average.equals(Double.toString(maxAvg)))
+				.map(s -> s.strikeRate).max(Double::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == highStrikeRate)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
 }
