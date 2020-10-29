@@ -13,10 +13,15 @@ import com.capgemini.csvbuilder.BuilderException;
 import com.capgemini.csvbuilder.CSVBuilderFactory;
 import com.capgemini.csvbuilder.ICSVBuilder;
 
-
 public class IPLAnalyser {
 	List<PlayerRuns> runsList = new ArrayList<>();
 
+	/**
+	 * Start
+	 * 
+	 * @param csvFilePath
+	 * @throws IPLAnalyserException
+	 */
 	public void loadPlayerRuns(String csvFilePath) throws IPLAnalyserException {
 
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
@@ -33,11 +38,17 @@ public class IPLAnalyser {
 
 	}
 
+	/**
+	 * Usecase1
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
 	public String topBattingAvg() throws IPLAnalyserException {
 		if (runsList == null || runsList.size() == 0) {
 			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
-		double max = runsList.stream().filter(s -> (s.average!="-")).map(s -> Double.parseDouble(s.average))
+		double max = runsList.stream().filter(s -> (s.average != "-")).map(s -> Double.parseDouble(s.average))
 				.max(Double::compare).get();
 		List<PlayerRuns> player = runsList.stream().filter(s -> s.average.equals(Double.toString(max)))
 				.collect(Collectors.toList());
@@ -45,15 +56,37 @@ public class IPLAnalyser {
 		return player.get(0).player;
 	}
 
+	/**
+	 * Usecase2
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
 	public String strikingRate() throws IPLAnalyserException {
 		if (runsList == null || runsList.size() == 0) {
 			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
-		double max = runsList.stream().filter(s -> (s.strikeRate>0)).map(s -> s.strikeRate).max(Double::compare).get();
+		double max = runsList.stream().filter(s -> (s.strikeRate > 0)).map(s -> s.strikeRate).max(Double::compare)
+				.get();
 		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == max).collect(Collectors.toList());
 		System.out.println(player.get(0).player);
 		return player.get(0).player;
 	}
-	
-	
+
+	/**
+	 * Usecase3
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String maxFoursandSixes() throws IPLAnalyserException {
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int maxSixesAndFours = runsList.stream().map(s -> s.fours + s.sixes).max(Integer::compare).get();
+		List<PlayerRuns> player = runsList.stream().filter(s -> s.strikeRate == maxSixesAndFours)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+
 }
