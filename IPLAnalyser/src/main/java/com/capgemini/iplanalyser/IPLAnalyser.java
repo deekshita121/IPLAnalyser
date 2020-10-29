@@ -282,24 +282,47 @@ public class IPLAnalyser {
 	 * @throws IPLAnalyserException
 	 */
 	public String cricketerWithBestBattingAndBowlingAvg() throws IPLAnalyserException {
-		if (runsList == null || runsList.size() == 0) {
-			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
-		}
 		if (bowlersList == null || bowlersList.size() == 0) {
 			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
-		double maxBattingAvg = runsList.stream().filter(s -> (s.average != "-")).map(s -> Double.parseDouble(s.average))
-				.max(Double::compare).get();
-		double maxBowlingAvg = bowlersList.stream().filter(s -> (s.average != "-"))
-				.map(s -> Double.parseDouble(s.average)).max(Double::compare).get();
-		List<Bowler> bowler = bowlersList.stream().filter(s -> s.average.equals(Double.toString(maxBowlingAvg)))
-				.collect(Collectors.toList());
-		List<PlayerRuns> batsman = runsList.stream().filter(s -> s.average.equals(Double.toString(maxBowlingAvg)))
-				.collect(Collectors.toList());
-		return bowler.get(0).player;
-		// return batsman.get(0).player;
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		String player = null;
+		for (PlayerRuns batsman : runsList) {
+			for (Bowler bowler : bowlersList) {
+				if (batsman.player.equals(bowler.player)) {
+					player = batsman.player;
+					break;
+				}
+			}
+		}
+		return player;
 	}
-	
-	
+
+	/**
+	 * Usecase14
+	 * 
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String cricketerWithMostRunsAndWickets() throws IPLAnalyserException {
+		if (bowlersList == null || bowlersList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		if (runsList == null || runsList.size() == 0) {
+			throw new IPLAnalyserException("No Census Data", IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		String player = null;
+		for (PlayerRuns batsman : runsList) {
+			for (Bowler bowler : bowlersList) {
+				if (batsman.player.equals(bowler.player)) {
+					player = batsman.player;
+					break;
+				}
+			}
+		}
+		return player;
+	}
 
 }

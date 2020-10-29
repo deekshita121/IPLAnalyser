@@ -155,5 +155,15 @@ public class IPLAnalyserTest {
 		}
 	}
 	
-	
+	@Test
+	public void givenCsvDataShouldReturnCricketerWithHighRunsAndWickets() {
+		try {
+			iplAnalyser.loadPlayerRuns(PLAYER_RUNS_DATA);
+			iplAnalyser.loadBowler(BOWLERS_DATA);
+			String playerName = iplAnalyser.cricketerWithMostRunsAndWickets();
+			Assert.assertEquals("Andre Russell", playerName);
+		} catch (IPLAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
 }
